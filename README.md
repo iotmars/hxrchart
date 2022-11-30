@@ -88,4 +88,30 @@ vue3环境组件库，依赖 sass echart axios，sass需要安装python
 | cardUiParams.tableList.columnConfig[num].skin | 非必传，带颜色的正副值，值必须是字符串 | 数字 | 1开启，0关闭 |
 | cardUiParams.tableList.columnConfig[num].nullReplace | 非必传，当值为null时替换 | 字符串 |
 | cardUiParams.tableList.columnConfig[num].format | 非必传，数字格式化，模式见附 | 数字 |
-
+# blockList 数据块组件，用于数据块状展示
+单接口，返回数据结构
+{
+  code:200,
+  data:{
+    records:[
+        {
+         /cardUiParams.blockList.columnConfig[num].fieldName/:999
+        },
+    ]
+  }
+}
+请求配置
+| 参数 | 备注 |
+暂无
+主题配置
+| 参数 | 备注 |
+| cardUiParams.isbig | 非必传，卡片大屏模式 | 数字 | 1大屏模式，0普通模式 |
+| cardUiParams.timeSelect | 非必传，卡片日周月筛选 | 数字 |2日周月，3本周本日本月 |
+| cardUiParams.blockList.columnConfig | 必传，设置初始化表格 | 数组 |
+| cardUiParams.blockList.columnConfig[num].name | 必传，设置表格字段名 | 字符串 |
+| cardUiParams.blockList.columnConfig[num].fieldName | 必传，设置取值字段 | 字符串 |
+| cardUiParams.blockList.columnConfig[num].width | 非必传，设置行宽 | 数字 |
+| cardUiParams.blockList.columnConfig[num].sort | 非必传，设置排序 | 数字 | 2无顺序，1正序，0倒序 |
+| cardUiParams.blockList.columnConfig[num].skin | 非必传，带颜色的正副值，值必须是字符串 | 数字 | 1开启，0关闭 |
+| cardUiParams.blockList.columnConfig[num].nullReplace | 非必传，当值为null时替换 | 字符串 |
+| cardUiParams.blockList.columnConfig[num].format | 非必传，数字格式化，模式见附 | 数字 |

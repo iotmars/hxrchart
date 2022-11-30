@@ -1,33 +1,33 @@
 <template>
-  <div :class="pageCardUiParams.isbig==1?'hxr-floatMain':''">
-    <div :class="['hxr-dcBody',pageCardUiParams.isbig==1?'hxr-cardMode-blockList-big':'hxr-cardMode-blockList']">
+  <div :class="cardUiParams.isbig==1?'hxr-floatMain':''">
+    <div :class="['hxr-dcBody',cardUiParams.isbig==1?'hxr-cardMode-blockList-big':'hxr-cardMode-blockList']">
       <div class="hxr-cmHead"
-           v-if="pageCardUiParams">
-      <day-week-month-year v-if="pageCardUiParams.ifTimeSelect == 3"
+           v-if="cardUiParams">
+      <day-week-month-year v-if="cardUiParams.timeSelect == 3"
                              :dateRangeType="myDateRangeType"
                              @click-date="getDate"
-                             :styleMode='pageCardUiParams.isbig'
-                             :composeSetting='pageCardUiParams.dateRangeList' />
+                             :styleMode='cardUiParams.isbig'
+                             :composeSetting='cardUiParams.dateRangeList' />
         <!--日周月风格趋势-->
-        <week-month-year-trendV2 v-if="pageCardUiParams.ifTimeSelect == 2"
+        <week-month-year-trendV2 v-if="cardUiParams.timeSelect == 2"
                                  :dateRangeType="myDateRangeType"
                                  @click-date="getDate"
-                                 :styleMode='pageCardUiParams.isbig'
-                                 :composeSetting='pageCardUiParams.dateRangeList' />
+                                 :styleMode='cardUiParams.isbig'
+                                 :composeSetting='cardUiParams.dateRangeList' />
       </div>
       <div class="hxr-cmBody">
         <common-block :mainData="blockList"
-                      :config="columnConfig"
-                      :styleMode='pageCardUiParams' />
+                      :config="cardUiParams.blockList.columnConfig"
+                      :styleMode='cardUiParams' />
       </div>
     </div>
     <!-- <div class="hxr-dcFoot">
         数据更新时间{{ dataUpdateTime }}
       </div> -->
     <div class="hxr-dcLeg"
-         v-if="pageCardUiParams&&pageCardUiParams.morePath">
-      <common-more :cardConfig="pageCardUiParams"
-                   :clickParams="pageCardInterfaceParams" />
+         v-if="cardUiParams&&cardUiParams.morePath">
+      <common-more :cardConfig="cardUiParams"
+                   :clickParams="interfaceParams" />
     </div>
 
   </div>
@@ -37,23 +37,13 @@
 import weekMonthYearTrendV2 from '../common/weekMonthYearTrendV2.vue'
 import dayWeekMonthYear from '../common/dayWeekMonthYear.vue'
 import commonBlock from '../common/commonBlock.vue'
-import { commonMethod } from '../api/common.js'
+import { commonMethod } from '../api/common/common.js'
 import commonMore from '../common/commonMore.vue'
 export default {
   name: 'blockList',
   props: {
-    title: {
-      type: String | Number
-    },
-    pageCode: {
+    cardCode: {
       type: String
-    },
-    isConcern: {
-      type: String | Number
-    },
-    columnConfig: {
-      type: Array,
-      default: () => []
     },
     pageCardId: {
       type: Number
@@ -62,19 +52,17 @@ export default {
       type: Object,
       require: true
     },
-    cardCode: {
-      type: String
-    },
-    pageCardUiParams: {
+
+    cardUiParams: {
       type: Object,
       default: () => {
         let obj = {
-          ifTimeSelect: ''
+          timeSelect: ''
         }
         return obj
       }
     },
-    pageCardInterfaceParams: {
+    interfaceParams: {
       type: Object
     }
   },
@@ -82,7 +70,7 @@ export default {
     return {
       blockList: {},
       dataUpdateTime: "",
-      myPageCardInterfaceParams: {},
+      myinterfaceParams: {},
       myDateRangeType: ''
     }
   },
@@ -93,17 +81,17 @@ export default {
     'common-more': commonMore
   },
   created () {
-    this.myPageCardInterfaceParams = this.pageCardInterfaceParams
-    this.myDateRangeType = this.pageCardUiParams.dateRangeType
+    this.myinterfaceParams = this.interfaceParams
+    this.myDateRangeType = this.cardUiParams.dateRangeType
     this.getData()
   },
   methods: {
     getData () {
       let url = this.interfaceInfo.interfaceUrl
       let method = this.interfaceInfo.interfaceMethod
-      this.myPageCardInterfaceParams.cardCode = this.cardCode
-      this.myPageCardInterfaceParams.pageCardId = this.pageCardId
-      commonMethod(url, method, this.myPageCardInterfaceParams).then(res => {
+      this.myinterfaceParams.cardCode = this.cardCode
+      this.myinterfaceParams.pageCardId = this.pageCardId
+      commonMethod(url, method, this.myinterfaceParams).then(res => {
         if (res.code === 200) {
           this.blockList = res.data.records[0] || {}
           this.dataUpdateTime = res.dataUpdateTime
@@ -114,8 +102,8 @@ export default {
       })
     },
     getDate (data) {
-      this.myPageCardInterfaceParams.dateRangeType = data.type
-      this.myPageCardInterfaceParams.dateRange = data.val
+      this.myinterfaceParams.dateRangeType = data.type
+      this.myinterfaceParams.dateRange = data.val
       this.getData()
     }
   }

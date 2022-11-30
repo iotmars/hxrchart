@@ -14,12 +14,12 @@
         </div>
         <div v-else
              :style="{'width':'100%','height':flopHeight+'px','lineHeight':flopHeight+'px','fontSize':textStyle.fontSize+'px','color':'#00ffff'}">
-          {{mainData[item.fieldName]|changeMode(item.format,item.nullReplace) }}
+          {{mainData[item.fieldName] }}
         </div>
 
       </div>
       <div v-else
-           class="hxr-alcBottom">{{ mainData[item.fieldName]|changeMode(item.format,item.nullReplace)}}<span v-if="item.unit">{{ mainData[item.fieldName] ? item.unit : '' }}</span></div>
+           class="hxr-alcBottom">{{ mainData[item.fieldName]}}<span v-if="item.unit">{{ mainData[item.fieldName] ? item.unit : '' }}</span></div>
       <div class="hxr-compare"
            v-if="item.row&&item.row.length>0">
         <span v-for="(i,ind) in item.row"
@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import { numberReplace } from '../../utils/index.js'
+import { numberReplace } from '../utils/index.js'
 export default {
   name: 'commonBlock',
   filters: {
@@ -106,6 +106,8 @@ export default {
     }
   },
   created () {
+    console.log(this.mainData)
+    console.log(this.config)
     let lsarr = []
     if (this.styleMode.isbig == 1) {
       let screenWidth = window.screen.width
